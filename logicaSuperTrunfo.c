@@ -1,43 +1,75 @@
-#include <stdio.h>
+# Função para cadastrar uma carta
+def cadastrar_carta():
+    print("\n📇 Cadastro de Carta:")
+    estado = input("Estado: ")
+    codigo = input("Código da carta: ")
+    nome = input("Nome da cidade: ")
+    populacao = int(input("População: "))
+    area = float(input("Área (km²): "))
+    pib = float(input("PIB (em bilhões): "))
+    pontos_turisticos = int(input("Número de pontos turísticos: "))
 
-// Desafio Super Trunfo - Países
-// Tema 2 - Comparação das Cartas
-// Este código inicial serve como base para o desenvolvimento do sistema de comparação de cartas de cidades. 
-// Siga os comentários para implementar cada parte do desafio.
+    densidade = populacao / area if area > 0 else 0
 
-int main() {
-    // Definição das variáveis para armazenar as propriedades das cidades
-    // Você pode utilizar o código do primeiro desafio
+    return {
+        "estado": estado,
+        "codigo": codigo,
+        "nome": nome,
+        "populacao": populacao,
+        "area": area,
+        "pib": pib,
+        "pontos_turisticos": pontos_turisticos,
+        "densidade": densidade
+    }
 
-    
-    // Cadastro das Cartas:
-    // Implemente a lógica para solicitar ao usuário que insira os dados das cidades
-    // utilizando a função scanf para capturar as entradas.
-    // utilize o código do primeiro desafio
+# Função para exibir uma carta
+def exibir_carta(carta):
+    print("\n📋 Carta:")
+    for chave, valor in carta.items():
+        print(f"{chave.capitalize()}: {valor}")
 
-    // Exemplo:
-    // printf("Digite o código da cidade: ");
-    // scanf("%s", codigo);
-    // 
-    // (Repita para cada propriedade)
+# Função para comparar duas cartas
+def comparar_cartas(carta1, carta2, atributo):
+    print(f"\n🔍 Comparando atributo: {atributo}")
 
-    // Comparação de Cartas:
-    // Desenvolva a lógica de comparação entre duas cartas.
-    // Utilize estruturas de decisão como if, if-else para comparar atributos como população, área, PIB, etc.
+    if atributo not in carta1 or atributo not in carta2:
+        print("Atributo inválido.")
+        return
 
-    // Exemplo:
-    // if (populacaoA > populacaoB) {
-    //     printf("Cidade 1 tem maior população.\n");
-    // } else {
-    //     printf("Cidade 2 tem maior população.\n");
-    // }
+    valor1 = carta1[atributo]
+    valor2 = carta2[atributo]
 
-    // Exibição dos Resultados:
-    // Após realizar as comparações, exiba os resultados para o usuário.
-    // Certifique-se de que o sistema mostre claramente qual carta venceu e com base em qual atributo.
+    if atributo == "densidade":
+        # Menor densidade vence
+        if valor1 < valor2:
+            vencedora = carta1
+        elif valor2 < valor1:
+            vencedora = carta2
+        else:
+            vencedora = None
+    else:
+        # Maior valor vence
+        if valor1 > valor2:
+            vencedora = carta1
+        elif valor2 > valor1:
+            vencedora = carta2
+        else:
+            vencedora = None
 
-    // Exemplo:
-    // printf("A cidade vencedora é: %s\n", cidadeVencedora);
+    if vencedora:
+        print(f"\n🏆 Carta vencedora: {vencedora['nome']} ({atributo} = {vencedora[atributo]})")
+    else:
+        print("\n🤝 Empate!")
 
-    return 0;
-}
+# Programa principal
+print("=== Jogo de Cartas: Cidades do Brasil ===")
+carta1 = cadastrar_carta()
+carta2 = cadastrar_carta()
+
+exibir_carta(carta1)
+exibir_carta(carta2)
+
+print("\n🎯 Atributos disponíveis para comparação: população, area, pib, pontos_turisticos, densidade")
+atributo = input("Digite o atributo para comparação: ").strip().lower()
+
+comparar_cartas(carta1, carta2, atributo)
